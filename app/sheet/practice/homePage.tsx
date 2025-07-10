@@ -7,9 +7,9 @@ export default function HomePage() {
 
   return (
     <div className='flex flex-col items-center border-2 py-5 border-red-500'>
+      <h2>Inside HomePage</h2>
       <p>Hello, {username}</p>
-      <input type="text" className='input' placeholder="Enter username"
-       onChange={(e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)} />
+    <input type="text" className='input' onChange={(e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}/>
     </div>
   );
 }
