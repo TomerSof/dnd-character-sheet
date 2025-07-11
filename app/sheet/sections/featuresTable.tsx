@@ -35,14 +35,14 @@ export default function FeaturesTable({
 
   return (
     <div className="overflow-x-auto max-h-[500px]">
-      <h2 className="text-2xl font-bold mb-5 text-center underline">{title}</h2>
+      <h2 className="text-2xl font-bold mb-5 text-center text-secondary underline">{title}</h2>
       <table className="table border-2  table-xs table-pin-rows table-pin-cols">
         <thead>
           <tr className=''>
-            <th className='bg-secondary/40'></th>
-            <td className="text-center text-xl bg-secondary/40 underline">{nameLabel}</td>
-            <td className="text-center text-xl bg-secondary/40 underline">{descLabel}</td>
-            <th className='bg-secondary/40'></th>
+            <th className='bg-secondary/60'></th>
+            <td className="text-center text-neutral-900 text-xl bg-secondary/60 underline">{nameLabel}</td>
+            <td className="text-center text-neutral-900 text-xl bg-secondary/60 underline">{descLabel}</td>
+            <th className='bg-secondary/60'></th>
           </tr>
         </thead>
         <tbody>
@@ -97,7 +97,7 @@ export default function FeaturesTable({
           ))}
         </tbody>
         <tfoot>
-          <tr className="bg-secondary/40 group hover:border hover:border-yellow-300">
+          <tr className="bg-secondary/60 group hover:border hover:border-yellow-300">
             <td colSpan={7} className="text-center">
               <svg
                 className="pr-10 inline-block w-full h-7 opacity-60 group-hover:opacity-100 transition-opacity duration-150 cursor-pointer"

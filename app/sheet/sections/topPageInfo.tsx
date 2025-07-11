@@ -23,7 +23,7 @@ export default function TopPageInfo() {
     }
 
     return (
-        <div className="grid border bg-secondary/20 rounded-b-2xl grid-cols-5">
+        <div className="grid border bg-secondary/60 rounded-b-2xl grid-cols-5">
             {/*Left Side*/}
             <div className="w-full col-span-2 self-center">
                 <div className="grid grid-cols-2 gap-4 p-2 ">
@@ -113,20 +113,20 @@ export default function TopPageInfo() {
                         <div className="flex flex-col justify-center gap-6 flex-grow w-fit mx-auto">
 
                             <div>
-                                <label className="label text-sm text-error underline">Fails</label><br />
+                                <label className="label text-sm text-error font-extrabold underline underline-offset-2">Fails</label><br />
                                 {checkedFails.map((checked, i) => (
                                     <input
                                         key={i}
                                         type="checkbox"
                                         checked={checked}
                                         onChange={() => toggleFail(i)}
-                                        className="mx-1 checkbox border-primary border-2 bg-current checked:border-error checked:bg-red-400 checked:text-red-800"
+                                        className="mx-1 checkbox border-primary border-2 bg-current  checked:border-error checked:bg-red-400 checked:text-red-800"
                                     />
                                 ))}
                             </div>
                             {/*Save*/}
                             <div>
-                                <label className="label text-sm text-success underline">Success</label><br />
+                                <label className="label text-sm text-success font-extrabold underline underline-offset-2">Success</label><br />
                                 {checkedSuccess.map((checked, i) => (
                                     <input
                                         key={i}

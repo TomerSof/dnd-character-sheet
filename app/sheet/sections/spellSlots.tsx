@@ -18,7 +18,7 @@ function SpellSlotLevel({
     return (
         <label className="input p-1 flex flex-row self-center h-full gap-2">
             <span className="w-20">Level {level}</span>
-            <div className="flex flex-wrap gap-2 justify-center w-full h-full">
+            <div className="flex flex-wrap gap-1 justify-center w-full h-full">
                 <p className="w-full text-xs text-center underline">Max Slots</p>
                 <input
                     type="number"
@@ -30,8 +30,7 @@ function SpellSlotLevel({
                     onChange={(e) => onTotalChange(level, e.target.value)}
                 />
             </div>
-            <div className="flex flex-wrap gap-2 justify-center w-full h-full">
-                <p className="w-full text-xs text-center underline">Expended</p>
+            <div className="flex gap-1 justify-center w-full mr-1 h-full flex-nowrap">
                 {[...Array(totalSlots)].map((_, i) => (
                     <input
                         key={i}
@@ -42,9 +41,11 @@ function SpellSlotLevel({
                     />
                 ))}
             </div>
+
         </label>
     );
 }
+
 
 export default function SpellSlots() {
     // Initialize state: map level to total and expended counts
@@ -109,15 +110,13 @@ export default function SpellSlots() {
     });
 
     return (
-        <div className="grid grid-cols-3 mt-1 border border-gray-300 box-border text-center items-center scale-90 gap-y-1">
-            <p className="col-span-3 font-bold border-b border-gray-300 pb-1">Spell Slots</p>
+        <div className="grid grid-cols-3 my-2 border bg-secondary-content box-border text-center items-center gap-y-1">
+            <p className="col-span-3 w-max mx-auto font-bold border-b bg-secondary/60 m-2 rounded-lg pb- px-5">Spell Slots</p>
 
             {cols.map((col, colIdx) => (
-                <div
-                    key={colIdx}
-                    className={`flex flex-col px-3 gap-2 py-2 box-border border-t border-gray-300 ${colIdx !== 0 ? 'border-l border-gray-300' : ''
-                        }`}
-                >
+                <div key={colIdx}
+                    className='flex flex-col px-3 gap-2 py-2 bg-secondary/60 box-border border-t mx-2 rounded-lg mb-2'>
+
                     {col.map(({ level, total, expended }) => (
                         <SpellSlotLevel
                             key={level}

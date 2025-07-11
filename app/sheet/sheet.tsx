@@ -18,32 +18,23 @@ import CoinsModal from "./sections/coinsModal";
 import PracticeComponent from "./practice/practiceComponent";
 import ThemeController from "./themeController";
 import { useCharacter } from "./characterContext";
+import SpellCastingInfo from "./sections/spellCastingInfo";
 
 
 
 export default function CharacterSheet() {
 
-  const {
-    stats,
-    traits,
-    coins,
-    checkingSavingThrow,
-    checkingSkill,
-    onTraitValueChange,
-    onStatChange,
-  } = useCharacter();
+  const { stats, traits, coins,
+    checkingSavingThrow, checkingSkill, onTraitValueChange, onStatChange, updateCoins } = useCharacter();
+
   const [isCoinsModalOpen, setIsCoinsModalOpen] = useState(false);
 
-  
 
-
-
-  
   return (<>
 
-    <PracticeComponent/>
+   
+    <ThemeController />
 
-    <ThemeController/>
 
 
     <div className="justify-items-center border px-1 mt-1 mx-5">
@@ -85,7 +76,7 @@ export default function CharacterSheet() {
           </div>
           <div className="flex flex-row gap-3 ">
             <ClassFeatures />
-            <Feats />
+            <EquipmentTable />
           </div>
 
 
@@ -98,23 +89,32 @@ export default function CharacterSheet() {
               ))}
               <div className="col-span-5 text-center mt-2">
                 <button onClick={() => setIsCoinsModalOpen(true)} className="btn btn-soft btn-success btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl h-[90%]">Edit</button>
-                <CoinsModal isOpen={isCoinsModalOpen} coins={coins} onClose={() => setIsCoinsModalOpen(false)} />
+                <CoinsModal isOpen={isCoinsModalOpen} coins={coins} onSubmit={updateCoins} onClose={() => setIsCoinsModalOpen(false)} />
               </div>
             </div>
           </div>
 
           <div className="flex flex-row gap-3">
             <SpeciesTraits />
-            <EquipmentTable />
+            <Feats />
           </div>
           <div>
             <TrainingAndProficiencies />
           </div>
         </div>
       </div>
-
-      <SpellSlots />
       <WaponsAndAttacksTB />
+      <div className="grid grid-cols-5 gap-1 my-2 mx-2 rounded-lg bg-secondary/60 ">
+        <div className="col-span-2 flex items-center justify-center">
+          <SpellCastingInfo />
+        </div>
+        <div className="col-span-3 flex items-center py-2 px-2 justify-center">
+          <SpellSlots />
+        </div>
+      </div>
+
+
+
     </div>
 
   </>

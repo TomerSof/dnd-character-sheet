@@ -14,6 +14,13 @@ var defaultCharacter = {
   hitDiceMax: 0,
   hitDiceSpent: 0,
   size: 0,
+  spellCasting: {
+    ability: '',
+    abilityMod: 0,
+    spellSaveDC: 0,
+    spellAttackBonus: 0,
+  },
+
   coins: [
     { name: "Copper Piece", token: "cp", count: 0, valueInGP: 0.01 },
     { name: "Silver Piece", token: "sp", count: 0, valueInGP: 0.1 },
@@ -109,6 +116,13 @@ type characterData = {
   hitDiceMax: number,
   hitDiceSpent: number,
   size: number,
+  spellCasting: {
+    ability: string;
+    abilityMod: number;
+    spellSaveDC: number;
+    spellAttackBonus: number;
+  };
+
   coins: { name: string, token: string, count: number, valueInGP: number }[],
   traits: { name: string, baseValue: number, bonusValue: number }[],
   stats: {
@@ -124,6 +138,8 @@ type characterContextType = characterData & {
   checkingSkill: (statIdx: number, skillIdx: number) => void;
   onTraitValueChange: (index: number, updatedValue: number) => void;
   onStatChange: (index: number, updateValue: number) => void;
+  updateCoins: (add: Record<string, number>, subtract: Record<string, number>) => void;
+  setSpellCasting: (ability: string) => void;
 };
 
 const CharacterContext = createContext<characterContextType | undefined>(undefined);
@@ -136,6 +152,18 @@ const CharacterContext = createContext<characterContextType | undefined>(undefin
 export const CharacterProvider = ({ children }: { children: ReactNode }) => {
 
   const [character, setCharacter] = useState<characterData>(defaultCharacter);
+
+  const setSpellCasting = (ability: string) => {
+    const characterStat = character.stats.find(stat => stat.abbreviation == ability)!;
+    const proficiencyBonus = character.traits[2].baseValue;
+    const abilityInfo = {
+      ability: ability,
+      abilityMod: characterStat.modValue,
+      spellSaveDC: 8 + proficiencyBonus + characterStat.modValue,
+      spellAttackBonus: proficiencyBonus + characterStat.modValue
+    }
+    setCharacter({...character,spellCasting: abilityInfo});
+  }
 
   const checkingSavingThrow = (index: number) => {
     const updatedIsProficient = !character.stats[index].savingThrow.isProficient;
@@ -196,10 +224,20 @@ export const CharacterProvider = ({ children }: { children: ReactNode }) => {
     setCharacter({ ...character, stats: updatedStats });
   };
 
+  const updateCoins = (add: Record<string, number>, subtract: Record<string, number>) => {
+    const updatedCoins = character.coins.map(coin => {
+      const addCount = add[coin.token] ?? 0;
+      const subtractCount = subtract[coin.token] ?? 0;
+      const newCount = coin.count + addCount - subtractCount;
+      return { ...coin, count: newCount < 0 ? 0 : newCount };
+    });
+    setCharacter({ ...character, coins: updatedCoins })
+  }
+
   return (
     <CharacterContext.Provider
       value={{
-        ...character, setCharacter, checkingSavingThrow, checkingSkill, onTraitValueChange, onStatChange
+        ...character, setCharacter, checkingSavingThrow, checkingSkill, onTraitValueChange, onStatChange, updateCoins, setSpellCasting
       }}>
       {children}
     </CharacterContext.Provider>
