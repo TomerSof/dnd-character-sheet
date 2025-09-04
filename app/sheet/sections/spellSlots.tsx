@@ -35,7 +35,7 @@ function SpellSlotLevel({
                     <input
                         key={i}
                         type="checkbox"
-                        className="checkbox border-base-300 bg-neutral-500 checked:border-current checked:bg-secondary checked:text-current"
+                        className="checkbox border-base-300 bg-neutral-500 checked:border-current checked:bg-secondary checked:text-secondary-content"
                         checked={i < expendedSlots}
                         onChange={() => onExpendedToggle(level, i)}
                     />
@@ -110,8 +110,8 @@ export default function SpellSlots() {
     });
 
     return (
-        <div className="grid grid-cols-3 my-2 border bg-secondary-content box-border text-center items-center gap-y-1">
-            <p className="col-span-3 w-max mx-auto font-bold border-b bg-secondary/60 m-2 rounded-lg pb- px-5">Spell Slots</p>
+        <div className="grid grid-cols-3 my-2 border-2 rounded-2xl bg-primary/60 border-secondary box-border text-center items-center gap-y-1">
+            <p className="col-span-3 w-max mx-auto font-bold border-b bg-secondary/60 m-2 font-fantasy text-primary text-outline-primary-content text-xl rounded-lg pb- px-5">Spell Slots</p>
 
             {cols.map((col, colIdx) => (
                 <div key={colIdx}

@@ -47,15 +47,15 @@ export default function CoinsModal({ isOpen, onClose, coins, onSubmit }: CoinsMo
       onClick={onClose} // closes when clicking outside box
     >
       <div
-        className="modal-box bg-secondary max-w-[75%] w-[65%]"
+        className="modal-box bg-primary/90 border-2   border-secondary max-w-[75%] w-[65%]"
         onClick={(e) => e.stopPropagation()} // prevents close when clicking inside
       >
-        <h3 className="font-bold text-current text-2xl underline">Edit Coins</h3>
+        <h3 className="font-bold text-primary-content font-fantasy text-outline-secondary text-2xl underline">Edit Coins</h3>
 
         <form onSubmit={handleSubmit} className='w-full my-5'>
 
-          <div className="flex flex-row items-center bg-secondary-content gap-4 py-2 mb-5 rounded">
-            <p className="text-success text-center w-1/6 text-xl self-center">Add:</p>
+          <div className="flex flex-row items-center ring-2 ring-success ring-inset bg-secondary-content/60 gap-4 py-2 mb-5 rounded">
+            <p className="text-success font-fantasy font-bold text-outline-primary-content text-center w-1/6 text-xl self-center">Add:</p>
             <div className="flex gap-4 w-5/6 mx-2">
               {coins.map(coin => (
                 <label key={coin.name} className="floating-label">
@@ -67,8 +67,8 @@ export default function CoinsModal({ isOpen, onClose, coins, onSubmit }: CoinsMo
             </div>
           </div>
 
-          <div className="flex flex-row items-center bg-secondary-content gap-4 py-2 mb-5 rounded">
-            <p className="text-error text-center w-1/6  text-xl self-center">Subtract:</p>
+          <div className="flex flex-row items-center ring-2 ring-error ring-inset bg-secondary-content/60 gap-4 py-2 mb-5 rounded">
+            <p className="text-error font-fantasy font-bold text-outline-primary-content text-center w-1/6  text-xl self-center">Subtract:</p>
             <div className="flex gap-4 w-5/6 mx-2">
               {coins.map(coin => (
                 <label key={coin.name} className="floating-label">

@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
+import BorderDecorSVG from "../svg/BorderDecorSVG";
+import { CirclePlus } from "lucide-react";
 
 type Row = {
   id: number;
@@ -10,98 +12,134 @@ type Row = {
 };
 
 export default function WeaponsAndAttacksTB() {
-
   const [rows, setRows] = useState<Row[]>([]);
   const [rowsNum, plusRow] = useState(1);
 
   const addRow = () => {
-
-    setRows([...rows, {
-      id: rowsNum,
-      name: "",
-      attackBonus: "",
-      damage: "",
-      damageType: "",
-      note: ""
-    }]);
-    plusRow(prev => prev + 1);
-  }
+    setRows([
+      ...rows,
+      {
+        id: rowsNum,
+        name: "",
+        attackBonus: "",
+        damage: "",
+        damageType: "",
+        note: "",
+      },
+    ]);
+    plusRow((prev) => prev + 1);
+  };
 
   const removeRow = (id: number) => {
-    setRows(prev => prev.filter(row => row.id != id));
-  }
+    setRows((prev) => prev.filter((row) => row.id != id));
+  };
 
   return (
     <>
-      <div className="overflow-x-auto border-2 scale-60 max-h-[300px]">
-        <table className="table table-xs table-pin-rows table-pin-cols ">
-          <thead>
-            <tr>
-              <th></th>
-              <th className='text-center text-2xl'>Name</th>
-              <th className='text-center text-2xl'>Attack Bonus / DC</th>
-              <th className='text-center text-2xl'>Damage</th>
-              <th className='text-center text-2xl'>Damage type</th>
-              <th className='text-center text-2xl'>Note</th>
-              <th ></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr key={0}>
-              <td></td>
-              <td><input className="input input-xs text-lg w-full text-center" /></td>
-              <td><input className="input input-xs text-lg w-full text-center" /></td>
-              <td><input className="input input-xs text-lg w-full text-center" /></td>
-              <td><input className="input input-xs text-lg w-full text-center" /></td>
-              <td><input className="input input-xs text-lg w-full text-center" /></td>
-              <td></td>
-            </tr>
-
-            {rows.map(row => (
-              <tr key={row.id}>
-                <td></td>
-                <td><input className="input input-xs text-lg w-full text-center" /></td>
-                <td><input className="input input-xs text-lg w-full text-center" /></td>
-                <td><input className="input input-xs text-lg w-full text-center" /></td>
-                <td><input className="input input-xs text-lg w-full text-center" /></td>
-                <td><input className="input input-xs text-lg w-full text-center" /></td>
-
-                <td><button
-                  onClick={() => removeRow(row.id)}
-                  className=" btn btn-xs  btn-error bg-red-800 rounded-xl text-white"
-                >
-                  ✕
-                </button></td>
+      <div className="overflow-x-auto border-2 outline outline-offset-2 outline-primary/80 border-primary bg-primary/20 rounded my-5 ">
+        <div className="flex flex-row justify-between ">
+          <BorderDecorSVG chosenFill="fill-primary" chosenStroke="stroke-transparent"/>
+          <h3 className="text-center font-fantasy text-3xl font-bold text-secondary my-5 pb-5 underline">
+            {" "}
+            Weapons & Attacks
+          </h3>
+          <BorderDecorSVG mirrored chosenFill="fill-primary" chosenStroke="stroke-transparent"/>
+        </div>
+        <div className="overflow-y-auto max-h-[350px]">
+          <table className="table table-xs table-pin-rows bg-transparent table-pin-cols w-full">
+            <thead >
+              
+            </thead>
+            <tbody>
+              <tr key={-1} className="bg-transparent">
+                <th className="bg-transparent"></th>
+                <th className="text-center font-fantasy font-extrabold text-secondary text-outline-base-content text-2xl bg-transparent">
+                  Name
+                </th>
+                <th className="text-center font-fantasy font-extrabold text-secondary text-outline-base-content text-2xl bg-transparent">
+                  Attack Bonus / DC
+                </th>
+                <th className="text-center font-fantasy font-extrabold text-secondary text-outline-base-content text-2xl bg-transparent">
+                  Damage
+                </th>
+                <th className="text-center font-fantasy font-extrabold text-secondary text-outline-base-content text-2xl bg-transparent">
+                  Damage type
+                </th>
+                <th className="text-center font-fantasy font-extrabold text-secondary text-outline-base-content text-2xl bg-transparent">
+                  Note
+                </th>
+                <th className="bg-transparent"></th>
+              </tr>
+              <tr key={0}>
+                <td ></td>
+                <td>
+                  <input className="input input-sm text-lg w-full text-center border-primary focus:outline-secondary" />
+                </td>
+                <td>
+                  <input className="input input-sm text-lg w-full text-center border-primary focus:outline-secondary" />
+                </td>
+                <td>
+                  <input className="input input-sm text-lg w-full text-center border-primary focus:outline-secondary" />
+                </td>
+                <td>
+                  <input className="input input-sm text-lg w-full text-center border-primary focus:outline-secondary" />
+                </td>
+                <td>
+                  <input className="input input-sm text-lg w-full text-center border-primary focus:outline-secondary" />
+                </td>
                 <td></td>
               </tr>
-            ))}
 
+              {rows.map((row) => (
+                <tr key={row.id}>
+                  <td></td>
+                  <td>
+                    <input className="input input-sm text-lg w-full text-center border-primary focus:outline-secondary" />
+                  </td>
+                  <td>
+                    <input className="input input-sm text-lg w-full text-center border-primary focus:outline-secondary" />
+                  </td>
+                  <td>
+                    <input className="input input-sm text-lg w-full text-center border-primary focus:outline-secondary" />
+                  </td>
+                  <td>
+                    <input className="input input-sm text-lg w-full text-center border-primary focus:outline-secondary" />
+                  </td>
+                  <td>
+                    <input className="input input-sm text-lg w-full text-center border-primary focus:outline-secondary" />
+                  </td>
 
-          </tbody>
-          <tfoot>
-            <tr className='group hover:border hover:border-yellow-300'>
-              <td colSpan={7} className="text-center">
-                <svg
-                  className=" inline-block w-full h-9 opacity-60 group-hover:opacity-100 transition-opacity duration-150 cursor-pointer"
-                  viewBox="0 0 48 48"
-                  onClick={addRow}
-                >
-                  <circle fill="#4CAF50" cx="24" cy="24" r="21" />
-                  <g fill="#ffffff">
-                    <rect x="21" y="14" width="6" height="20" />
-                    <rect x="14" y="21" width="20" height="6" />
-                  </g>
-                </svg>
-              </td>
-              <td></td>
-            </tr>
-          </tfoot>
-        </table>
-
+                  <td>
+                    <button
+                      onClick={() => removeRow(row.id)}
+                      className=" btn btn-xs  btn-error bg-red-800 rounded-xl text-white"
+                    >
+                      ✕
+                    </button>
+                  </td>
+                  <td></td>
+                </tr>
+              ))}
+              <tr className="group  bg-transparent">
+                <td colSpan={7} className="text-center">
+                  <CirclePlus
+                className="text-secondary-content justify-self-center size-8 fill-success-content hover:fill-success transition-fill duration-500 cursor-pointer"
+                onClick={addRow}
+              />
+                </td>
+                <td></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              
+            </tfoot>
+          </table>
+        </div>
+        <div className="flex justify-between">
+          <BorderDecorSVG flipped chosenFill="fill-primary" chosenStroke="stroke-transparent"/>
+          <BorderDecorSVG flipped mirrored chosenFill="fill-primary" chosenStroke="stroke-transparent"/>
+        </div>
       </div>
-
-
     </>
-
-  )
+  );
 }

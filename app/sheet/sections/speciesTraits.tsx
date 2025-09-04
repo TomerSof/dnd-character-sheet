@@ -1,4 +1,4 @@
-import FeaturesTable from './featuresTable';
+import FeaturesTable from '../../components/FeaturesTable';
 
 export default function SpeciesTraits() {
   return (

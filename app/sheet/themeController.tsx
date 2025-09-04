@@ -3,8 +3,8 @@ import React from 'react'
 
 export default function ThemeController() {
   const themes = [
-    "acid","abyss","autumn","black","business","bumblebee","caramellate","coffee","corporate","cupcake","cmyk","cyberpunk",
-    "dark","dim","dracula","emerelad","fantasy","forest","garden","halloween","lemonade","lofi","luxury","light","night","nord",
+    "acid","abyss","autumn","black","business","bumblebee","caramellatte","coffee","corporate","cupcake","cmyk","cyberpunk",
+    "dark","dim","dracula","emerald","fantasy","forest","garden","halloween","lemonade","lofi","luxury","light","night","nord",
     "pastel","retro","silk","sunset","synthwave","valentine","wireframe","winter","aqua"
   ];
 
@@ -15,7 +15,7 @@ export default function ThemeController() {
   }
 
   return (
-    <div className="dropdown fixed z-100 left-2 top-1 ">
+    <div className="dropdown fixed z-100 left-20 top-1 ">
       <div tabIndex={0} role="button" className="btn btn-warning m-1">
         Theme
         <svg

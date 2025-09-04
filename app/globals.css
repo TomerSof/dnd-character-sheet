@@ -1,18 +1,55 @@
 @import "tailwindcss";
+
 @plugin "daisyui" {
-   themes: light --default, dark --prefersdark, halloween , autumn,  abyss  ,luxury  , synthwave , retro, cyberpunk,
-    valentine,black,business,bumblebee,caramellate,coffee,corporate,cupcake,cmyk,dim,dracula, aqua, acid,
-    emerelad,fantasy,forest,garden,lemonade,lofi,night,nord,pastel,silk,sunset,wireframe,winter;
- }
+  themes: light --default, dark --prefersdark, halloween, autumn, abyss, luxury, synthwave, retro, cyberpunk,
+    valentine, black, business, bumblebee, caramellatte, coffee, corporate, cupcake, cmyk, dim, dracula, aqua, acid,
+    emerald, fantasy, forest, garden, lemonade, lofi, night, nord, pastel, silk, sunset, wireframe, winter;
+}
+
+.checkbox-theme {
+  @apply checkbox border-base-300 bg-secondary-content checked:border-current checked:bg-secondary checked:text-secondary-content;
+}
 
 @theme inline {
-  
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-fantasy: "Harrington", "Papyrus";
 }
 
 body {
-  
+
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.text-outline-primary-content {
+  text-shadow:
+    -1px -1px 0 var(--color-primary-content),
+     1px -1px 0 var(--color-primary-content),
+    -1px  1px 0 var(--color-primary-content),
+     1px  1px 0 var(--color-primary-content);
+}
+
+.text-outline-secondary-content {
+  text-shadow:
+    -1px -1px 0 var(--color-secondary-content),
+     1px -1px 0 var(--color-secondary-content),
+    -1px  1px 0 var(--color-secondary-content),
+     1px  1px 0 var(--color-secondary-content);
+}
+
+.text-outline-base-content {
+  text-shadow:
+    -1px -1px 0 var(--color-base-content),
+     1px -1px 0 var(--color-base-content),
+    -1px  1px 0 var(--color-base-content),
+     1px  1px 0 var(--color-base-content);
+}
+
+.text-outline-secondary {
+  text-shadow:
+    -1px -1px 0 var(--color-secondary),
+     1px -1px 0 var(--color-secondary),
+    -1px  1px 0 var(--color-secondary),
+     1px  1px 0 var(--color-secondary);
 }

@@ -1,0 +1,20 @@
+import { useCharacter } from "@/app/contexts/CharacterContext";
+import FloatingNumInput from "@/app/components/FloatingNumInput";
+import FloatingTxtInput from "@/app/components/FloatingTxtInput";
+import React, { useState } from "react";
+import SearchBar from "./SearchBar";
+import CharacterSpellsTable from "./CharacterSpellsTable";
+import { SpellCost, SpellLevel, SpellSearchParams } from "@/app/sheet/types";
+import { SpellTableContext, SpellTableProvider } from "@/app/contexts/SpellTableContext";
+
+export default function SearchSpellsTable() {
+  
+  return (
+    <div className="w-full my-5">
+      <SpellTableProvider>
+        <SearchBar />
+        <CharacterSpellsTable />
+      </SpellTableProvider>
+    </div>
+  );
+}

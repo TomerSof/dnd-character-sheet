@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { CirclePlus } from "lucide-react";
+import React, { useState } from "react";
 
 type Row = {
   id: number;
@@ -18,14 +19,14 @@ export default function FeaturesTable({
   title,
   nameLabel,
   descLabel,
-  namePlaceholder = '',
-  descPlaceholder = '',
+  namePlaceholder = "",
+  descPlaceholder = "",
 }: FeaturesTableProps) {
   const [rows, setRows] = useState<Row[]>([]);
   const [rowsNum, plusRow] = useState(1);
 
   const addRow = () => {
-    setRows([...rows, { id: rowsNum, name: '', description: '' }]);
+    setRows([...rows, { id: rowsNum, name: "", description: "" }]);
     plusRow((prev) => prev + 1);
   };
 
@@ -34,19 +35,25 @@ export default function FeaturesTable({
   };
 
   return (
-    <div className="overflow-x-auto max-h-[500px]">
-      <h2 className="text-2xl font-bold mb-5 text-center text-secondary underline">{title}</h2>
-      <table className="table border-2  table-xs table-pin-rows table-pin-cols">
+    <div className="overflow-x-auto w-[90%] max-h-[500px]">
+      <h2 className="text-3xl font-fantasy text-outline-secondary-content font-bold mb-5 text-center text-secondary underline">
+        {title}
+      </h2>
+      <table className="table border-2 bg-primary/60 table-xs table-pin-rows table-pin-cols">
         <thead>
-          <tr className=''>
-            <th className='bg-secondary/60'></th>
-            <td className="text-center text-neutral-900 text-xl bg-secondary/60 underline">{nameLabel}</td>
-            <td className="text-center text-neutral-900 text-xl bg-secondary/60 underline">{descLabel}</td>
-            <th className='bg-secondary/60'></th>
+          <tr className="font-fantasy font-bold ">
+            <th className="bg-primary"></th>
+            <td className="text-center text-primary-content text-2xl bg-primary underline">
+              {nameLabel}
+            </td>
+            <td className="text-center text-primary-content text-2xl bg-primary underline">
+              {descLabel}
+            </td>
+            <th className="bg-primary"></th>
           </tr>
         </thead>
         <tbody>
-          <tr className='bg-secondary/20'>
+          <tr>
             <td></td>
             <td className=" w-[40%]">
               <input
@@ -60,18 +67,10 @@ export default function FeaturesTable({
                 placeholder={descPlaceholder}
               />
             </td>
-            <td>
-              <button
-                onClick={() => {}}
-                className="btn btn-xs btn-error bg-red-800 rounded-xl text-white invisible"
-              >
-                ✕
-              </button>
-            </td>
           </tr>
 
           {rows.map((row) => (
-            <tr key={row.id} className='bg-secondary/20'>
+            <tr key={row.id} >
               <td></td>
               <td className="pt-5 w-[40%]">
                 <input
@@ -97,21 +96,13 @@ export default function FeaturesTable({
           ))}
         </tbody>
         <tfoot>
-          <tr className="bg-secondary/60 group hover:border hover:border-yellow-300">
+          <tr className="bg-primary">
             <td colSpan={7} className="text-center">
-              <svg
-                className="pr-10 inline-block w-full h-7 opacity-60 group-hover:opacity-100 transition-opacity duration-150 cursor-pointer"
-                viewBox="0 0 48 48"
+              <CirclePlus
+                className="text-secondary-content justify-self-center size-8 fill-success-content hover:fill-success transition-fill duration-500 cursor-pointer"
                 onClick={addRow}
-              >
-                <circle fill="#4CAF50" cx="24" cy="24" r="21" />
-                <g fill="#ffffff">
-                  <rect x="21" y="14" width="6" height="20" />
-                  <rect x="14" y="21" width="20" height="6" />
-                </g>
-              </svg>
+              />
             </td>
-            
           </tr>
         </tfoot>
       </table>

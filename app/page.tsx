@@ -1,11 +1,14 @@
-import Image from "next/image";
 import Sheet from "./sheet/sheet";
-import { CharacterProvider } from "./sheet/characterContext";
+import { CharacterProvider } from "./contexts/CharacterContext";
+import Navbar from "./Navbar";
 
 export default function Home() {
   return (
-    <CharacterProvider>
-    <Sheet/>
-    </CharacterProvider>
+    <>
+      <Navbar />
+      <main className="pt-17">
+        <Sheet />
+      </main>
+    </>
   );
 }
