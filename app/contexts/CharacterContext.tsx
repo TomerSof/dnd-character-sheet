@@ -201,10 +201,11 @@ export const CharacterProvider = ({ children }: { children: ReactNode }) => {
     let savingThrowBonusValue = character.stats[index].savingThrow.bonusValue;
 
     // Update Proficiency Bonus value
-    updatedIsProficient
-      ? (savingThrowBonusValue += character.traits[2].baseValue)
-      : (savingThrowBonusValue -= character.traits[2].baseValue);
-
+    if (updatedIsProficient) {
+      savingThrowBonusValue += character.traits[2].baseValue;
+    } else {
+      savingThrowBonusValue -= character.traits[2].baseValue;
+    }
     const thisUpdatedStat = {
       isProficient: updatedIsProficient,
       baseValue: character.stats[index].savingThrow.baseValue,
@@ -225,9 +226,11 @@ export const CharacterProvider = ({ children }: { children: ReactNode }) => {
     let skillBonusValue = character.stats[statIdx].skills[skillIdx].bonusValue;
 
     // Update Proficiency Bonus value
-    updatedIsProficient
-      ? (skillBonusValue += character.traits[2].baseValue)
-      : (skillBonusValue -= character.traits[2].baseValue);
+    if (updatedIsProficient) {
+      skillBonusValue += character.traits[2].baseValue;
+    } else {
+      skillBonusValue -= character.traits[2].baseValue;
+    }
 
     const updatedStats = [...character.stats];
     updatedStats[statIdx].skills[skillIdx].bonusValue = skillBonusValue;

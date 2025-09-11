@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import TopPageInfo from "./sections/TopPageInfo";
 import SpellSlots from "./sections/SpellSlots";
 import WaponsAndAttacksTB from "./sections/WeaponsAndAttacksTB";
