@@ -1,4 +1,4 @@
-import { SpellCost, SpellLevel, SpellSearchParams } from "@/app/sheet/types";
+import { SpellCost, SpellLevel } from "@/app/sheet/types";
 import FloatingNumInput from "@/app/components/FloatingNumInput";
 import FloatingTxtInput from "@/app/components/FloatingTxtInput";
 import React, { useState } from "react";

@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent } from "react";
 
 export default function page() {
   const [val, setVal] = useState("");

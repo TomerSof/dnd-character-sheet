@@ -1,8 +1,8 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { useCharacter } from "../../contexts/CharacterContext";
 
 export default function SpellCastingInfo() {
-  const { stats, spellCasting, setSpellCasting } = useCharacter();
+  const { stats, spellCasting } = useCharacter();
 
   return (
     <div className="flex flex-col justify-center bg-primary/60 border-secondary rounded border-2 px-5 py-5">

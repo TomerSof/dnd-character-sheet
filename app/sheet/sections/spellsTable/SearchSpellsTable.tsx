@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import SearchBar from "./SearchBar";
 import CharacterSpellsTable from "./CharacterSpellsTable";
-import { SpellCost, SpellLevel, SpellSearchParams } from "@/app/sheet/types";
-import {
-  SpellTableContext,
+import {,
   SpellTableProvider,
 } from "@/app/contexts/SpellTableContext";
 
