@@ -1,9 +1,7 @@
 import React from "react";
 import SearchBar from "./SearchBar";
 import CharacterSpellsTable from "./CharacterSpellsTable";
-import {,
-  SpellTableProvider,
-} from "@/app/contexts/SpellTableContext";
+import { SpellTableProvider } from "@/app/contexts/SpellTableContext";
 
 export default function SearchSpellsTable() {
   return (
