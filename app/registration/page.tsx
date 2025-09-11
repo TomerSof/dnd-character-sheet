@@ -6,7 +6,6 @@ import { supabase } from "../api/supa-client";
 import FloatingTxtInput from "../components/FloatingTxtInput";
 import PasswordChecklist from "react-password-checklist";
 import { flattenUser, useSession } from "../contexts/SessionContext";
-import { User, Session } from "@supabase/supabase-js";
 
 export default function Registration() {
   const { session, setSession } = useSession();
