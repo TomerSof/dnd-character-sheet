@@ -1,7 +1,7 @@
 import React from "react";
 
-const MedievalTitleSVG: React.FC<React.SVGProps<SVGSVGElement>> = () => (
-  <svg width={357} height={125} preserveAspectRatio="xMidYMid meet">
+const MedievalTitleSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg width={357} height={125} preserveAspectRatio="xMidYMid meet" {...props}>
     <path
       d="M0 0 C117.81 0 235.62 0 357 0 C357 41.25 357 82.5 357 125 C239.19 125 121.38 125 0 125 C0 83.75 0 42.5 0 0 Z "
       fill="none"
