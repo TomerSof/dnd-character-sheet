@@ -42,27 +42,6 @@ interface RegisterData {
   return { user, session: sessionData.session };
 }
 
-/**
- * Post-OAuth registration (e.g., Google) after redirect
- */
-  async function postOAuthRegister() {
-  const { data: { session }, error } = await supabase.auth.getSession();
-  if (error) throw new Error(error.message);
-  if (!session) return null;
-
-  const user = session.user;
-
-  // Upsert into users_meta
-  const { error: metaError } = await supabase.from("users_meta").upsert({
-    id: user.id,
-    name: user.user_metadata.full_name || "",
-    email: user.email,
-  });
-
-  if (metaError) throw new Error(metaError.message);
-
-  return { user, session };
-}
 
 export async function POST(req: Request) {
   try {
