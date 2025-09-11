@@ -81,7 +81,7 @@ export default function Registration() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: window.location.origin + "/registration",
+        redirectTo: process.env.NEXT_PUBLIC_BASE_URL + "/registration",
         queryParams: {
           prompt: "select_account", // forces Google to show account picker
         },
