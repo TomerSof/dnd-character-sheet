@@ -48,8 +48,15 @@ export async function POST(req: Request) {
     const body = await req.json();
     const result = await manualRegister(body);
     return new Response(JSON.stringify(result), { status: 200 });
-  } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 400 });
+  } catch (err: unknown) {
+  if (err instanceof Error) {
+    console.error(err);
+    alert(err.message);
+  } else {
+    console.error("Unexpected error", err);
+    alert("Something went wrong.");
   }
+}
+
 }
 
