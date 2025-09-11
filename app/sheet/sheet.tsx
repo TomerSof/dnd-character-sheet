@@ -9,9 +9,7 @@ import Feats from "./sections/Feats";
 import SpeciesTraits from "./sections/SpeciesTraits";
 import TrainingAndProficiencies from "./sections/TrainingAndProficiencies";
 import EquipmentTable from "./sections/EquipmentTable";
-import CoinsBorder from "./borders/coinsBorder";
 import CoinsModal from "./sections/CoinsModal";
-import ThemeController from "./themeController";
 import { useCharacter } from "../contexts/CharacterContext";
 import SpellCastingInfo from "./sections/SpellCastingInfo";
 import AboutCharacter from "./sections/AboutCharacter";
@@ -22,7 +20,6 @@ import StatsSection from "./sections/stats/StatsSection";
 import TraitBlock from "./sections/traits/TraitBlock";
 import CoinBorderSVG from "./svg/CoinBorderSVG";
 import { useSession } from "../contexts/SessionContext";
-import { supabase } from "../api/supa-client";
 
 interface CharacterSheetProps {
   guestMode: boolean;

@@ -1,6 +1,6 @@
 "use client";
 import Navbar from "../Navbar";
-import Sheet from "../sheet/sheet";
+import Sheet from "../sheet/Sheet";
 
 export default function GuestPage() {
   return (

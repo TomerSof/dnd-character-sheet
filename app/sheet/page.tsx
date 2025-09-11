@@ -1,6 +1,6 @@
 "use client";
 import Navbar from "../Navbar";
-import Sheet from "./sheet";
+import Sheet from "./Sheet";
 
 export default function SheetPage() {
   return (
