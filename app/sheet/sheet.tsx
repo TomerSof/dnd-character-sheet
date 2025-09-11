@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import TopPageInfo from "./sections/TopPageInfo";
 import SpellSlots from "./sections/SpellSlots";
 import WaponsAndAttacksTB from "./sections/WeaponsAndAttacksTB";
@@ -22,9 +22,15 @@ import StatsSection from "./sections/stats/StatsSection";
 import TraitBlock from "./sections/traits/TraitBlock";
 import CoinBorderSVG from "./svg/CoinBorderSVG";
 import { useSession } from "../contexts/SessionContext";
+import { supabase } from "../api/supa-client";
 
-export default function CharacterSheet() {
+interface CharacterSheetProps {
+  guestMode: boolean;
+}
+
+export default function CharacterSheet({ guestMode }: CharacterSheetProps) {
   const {
+    character,
     stats,
     traits,
     coins,
@@ -39,12 +45,55 @@ export default function CharacterSheet() {
   } = useCharacter();
 
   const [isCoinsModalOpen, setIsCoinsModalOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [savedOnce, setSavedOnce] = useState(false);
+
+  const { session } = useSession();
+
+  const handleSaveCharacter = async () => {
+    if (!session) return;
+    setIsSaving(true);
+
+    try {
+      const res = await fetch("/api/character/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: session.user.id, character }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error);
+      console.log(data.message);
+      setSavedOnce(true);
+    } catch (err) {
+      if (err instanceof Error) console.error(err.message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!savedOnce) return; // only auto-save if character already exists
+
+    const interval = setInterval(() => {
+      handleSaveCharacter();
+    }, 5 * 60 * 1000); // 5 minutes
+
+    return () => clearInterval(interval); // cleanup on unmount
+  }, [savedOnce, character]);
 
   return (
     <>
-      <ThemeController />
-
-      <div className="justify-items-center border-2 border-primary px-1 mt-1 mx-5">
+      {!guestMode && (
+        <button
+          className="btn btn-secondary bottom-3 right-7 shadow-lg z-50 fixed"
+          onClick={handleSaveCharacter}
+        >
+          {isSaving ? "Saving..." : "Save Character"}
+        </button>
+      )}
+      <div className="justify-items-center border-2 border-primary px-1 mt-2 mx-5">
         <div className="mx-auto border-2 border-primary mt-2">
           <div className="flex items-between justify-between gap-2">
             <BorderDecorSVG />
@@ -149,7 +198,6 @@ export default function CharacterSheet() {
             <SpellSlots />
           </div>
         </div>
-
         <SearchSpellsTable />
       </div>
     </>

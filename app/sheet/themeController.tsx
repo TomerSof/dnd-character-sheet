@@ -15,8 +15,8 @@ export default function ThemeController() {
   }
 
   return (
-    <div className="dropdown fixed z-100 left-20 top-1 ">
-      <div tabIndex={0} role="button" className="btn btn-warning m-1">
+    <div className="dropdown m-0 py-0">
+      <div tabIndex={0} role="button" className="btn btn-warning m-0">
         Theme
         <svg
           width="12px"

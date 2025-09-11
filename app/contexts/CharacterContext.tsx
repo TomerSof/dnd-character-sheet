@@ -10,7 +10,7 @@ const defaultCharacter = {
   classType: "",
   subclass: "",
   background: "",
-  backstory:"",
+  backstory: "",
   appearance: "",
   level: 1,
   xp: 0,
@@ -159,6 +159,7 @@ const defaultCharacter = {
 };
 
 type CharacterContextType = CharacterData & {
+  character: CharacterData;
   setCharacter: React.Dispatch<React.SetStateAction<CharacterData>>;
   checkingSavingThrow: (index: number) => void;
   checkingSkill: (statIdx: number, skillIdx: number) => void;
@@ -285,9 +286,9 @@ export const CharacterProvider = ({ children }: { children: ReactNode }) => {
         baseValue: mod,
       },
       skills: stat.skills.map((skill) => ({
-      ...skill,
-      baseValue: mod ,
-    })),
+        ...skill,
+        baseValue: mod,
+      })),
     };
 
     setCharacter({ ...character, stats: updatedStats });
@@ -328,6 +329,7 @@ export const CharacterProvider = ({ children }: { children: ReactNode }) => {
     <CharacterContext.Provider
       value={{
         ...character,
+        character,
         setCharacter,
         checkingSavingThrow,
         checkingSkill,

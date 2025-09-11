@@ -1,19 +1,36 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "./contexts/SessionContext";
+import { sign } from "crypto";
+import { supabase } from "./api/supa-client";
+import ThemeController from "./sheet/themeController";
+import Link from "next/link";
 
 export default function Navbar() {
   const router = useRouter();
-  const session = useSession();
+  const { session, setSession } = useSession();
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  console.log("Current session:", session); // <- add this line
+
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error signing out:", error.message);
+      return;
+    }
+    setSession(null);
+    router.push("/");
+  };
 
   return (
     <div className="navbar bg-primary/80 shadow-sm fixed">
-      <div className="navbar-start">
+      {/*Mobile Dropdown*/}
+      <div className="navbar-start w-auto">
         <div className="dropdown">
           <label className="btn btn-circle swap bg-primary-content swap-rotate lg:hidden">
             <input type="checkbox" />
-
             {/* hamburger icon */}
             <svg
               className="swap-off fill-secondary"
@@ -39,16 +56,36 @@ export default function Navbar() {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a>Empty</a>
+              <ThemeController />
+            </li>
+            <li>My characters</li>
+            <li>
+              <a href="">My characters</a>
             </li>
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <p className="text-2xl font-bold font-fantasy text-secondary text-outline-secondary-content">
+          D&D Manager
+        </p>
       </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+      {/*Desktop Menu*/}
+      <div className="navbar-center hidden lg:flex flex-1 justify-start">
+        <ul className="menu menu-horizontal px-1 gap-3">
           <li>
-            <a>Empty</a>
+            <ThemeController />
+          </li>
+          <li>
+            <button
+              className="btn btn-primary-content"
+              onClick={() => dialogRef.current?.showModal()}
+            >
+              My characters
+            </button>
+          </li>
+          <li>
+            <button className="btn btn-primary-content">
+              Create new character
+            </button>
           </li>
         </ul>
       </div>
@@ -57,7 +94,7 @@ export default function Navbar() {
           <>
             <p className="font-fantasy text-xl font-bold text-secondary text-outline-secondary-content">
               Hello
-              {" " + session.user?.name?.split(" ")[0]}
+              {" " + session.user?.firstName}
             </p>
 
             <div
@@ -66,22 +103,42 @@ export default function Navbar() {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                <img src={session.user?.image || ""} alt="Profile" />
+                {session.user?.avatar && (
+                  <img src={session.user?.avatar || ""} alt="Profile" />
+                )}
               </div>
             </div>
-            <button className="btn btn-error" >
+            <button className="btn btn-error" onClick={handleSignOut}>
               Sign Out
             </button>
           </>
         ) : (
           <a
-            className="btn btn-secondary"
+            className="btn btn-success"
             onClick={() => router.push("/registration")}
           >
-            Registration
+            Log In / Sign Up
           </a>
         )}
       </div>
+
+      <dialog ref={dialogRef} className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box flex align-center flex-col">
+          <h3 className="font-bold text-lg underline">My Characters</h3>
+          <p className="py-4">
+            If you choose to continue as a guest, your character will not be
+            saved.
+          </p>
+          <div className="modal-action">
+            <form method="dialog" className="flex gap-4 justify-around w-full">
+              <button className="btn btn-error">Close</button>
+              <Link className="btn btn-primary" href="/guest">
+                Continue as Guest
+              </Link>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 }

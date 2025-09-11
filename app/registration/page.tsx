@@ -6,8 +6,10 @@ import { supabase } from "../api/supa-client";
 import FloatingTxtInput from "../components/FloatingTxtInput";
 import PasswordChecklist from "react-password-checklist";
 import { manualRegister, postOAuthRegister } from "../api/register/route";
+import { useSession } from "../contexts/SessionContext";
 
 export default function Registration() {
+  const { setSession } = useSession();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -29,7 +31,8 @@ export default function Registration() {
 
       console.log("User registered:", user);
       // Optionally store session locally or redirect
-      router.push("/"); // or wherever you want to go after signup
+      if (session && setSession) setSession(session); // <- update context
+      router.push("/sheet");
     } catch (err: any) {
       console.error(err);
       alert(err.message || "Something went wrong.");
@@ -57,6 +60,9 @@ export default function Registration() {
       if (updateError)
         console.error("Failed to update last_login:", updateError.message);
 
+      setSession(data.session);
+      console.log("User logged in:", data.user);
+
       router.back();
     } catch (err) {
       console.error(err);
@@ -67,7 +73,12 @@ export default function Registration() {
   const handleGoogleLogin = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: window.location.origin + "/registration" },
+      options: {
+        redirectTo: window.location.origin + "/registration",
+        queryParams: {
+          prompt: "select_account", // forces Google to show account picker
+        },
+      },
     });
 
     if (error) console.error("OAuth error:", error.message);

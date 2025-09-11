@@ -135,7 +135,7 @@ export default function TopPageInfo() {
         <div className="grid grid-cols-3 border-l text-center justify-items-center ">
           <div className="col-span-1 p-1 ">
             <div className="flex flex-col gap-2">
-              <h3 className="text-primary-content font-bold text-outline-base-content font-fantasy underline">Hit Points</h3>
+              <h3 className="text-secondary font-bold text-outline-base-content font-fantasy underline">Hit Points</h3>
               <FloatingNumInput
                 title="Current"
                 placeholder="Current"
@@ -173,7 +173,7 @@ export default function TopPageInfo() {
           </div>
 
           <div className="col-span-1 w-full flex flex-col p-2">
-            <h3 className="text-primary-content font-bold text-outline-base-content font-fantasy underline">Hit Dice</h3>
+            <h3 className="text-secondary font-bold text-outline-base-content font-fantasy underline">Hit Dice</h3>
             <div className="flex flex-col justify-center gap-3 flex-grow w-fit mx-auto">
               <FloatingNumInput
                 title="Spent"
@@ -201,7 +201,7 @@ export default function TopPageInfo() {
           </div>
 
           <div className="rounded-br-2xl p-2 col-span-1 flex flex-col w-full">
-            <h3 className="text-primary-content font-bold text-outline-base-content font-fantasy underline">Death Saves</h3>
+            <h3 className="text-secondary font-bold text-outline-base-content font-fantasy underline">Death Saves</h3>
 
             {/*Fails*/}
             <div className="flex flex-col justify-center gap-6 flex-grow w-fit mx-auto">
