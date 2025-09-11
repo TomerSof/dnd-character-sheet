@@ -1,21 +1,21 @@
-// contexts/SessionContext.tsx
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../api/supa-client";
+import { Session } from "@supabase/supabase-js";
 
-interface FlattenedUser {
+export interface FlattenedUser {
   id: string;
-  email: string | null;
+  email: string | null | undefined;
   fullName: string;
   firstName: string;
   lastName: string;
   avatar: string;
 }
 
-interface CustomSession {
+export interface CustomSession {
   user: FlattenedUser;
   access_token: string;
-  expires_at: number;
+  expires_at: number | undefined;
 }
 
 interface SessionContextType {
@@ -24,6 +24,27 @@ interface SessionContextType {
 }
 
 const SessionContext = createContext<SessionContextType | null>(null);
+
+// 🔑 Moved flattenUser outside so it can be reused
+export const flattenUser = (s: Session | null): CustomSession | null => {
+  if (!s || !s.user) return null;
+
+  const user: FlattenedUser = {
+    id: s.user.id,
+    email: s.user.email ?? null,
+    fullName: s.user.user_metadata?.full_name || "",
+    firstName: s.user.user_metadata?.full_name?.split(" ")[0] || "",
+    lastName:
+      s.user.user_metadata?.full_name?.split(" ").slice(1).join(" ") || "",
+    avatar: s.user.user_metadata?.avatar_url || "",
+  };
+
+  return {
+    user,
+    access_token: s.access_token,
+    expires_at: s.expires_at,
+  };
+};
 
 export const SessionProvider = ({
   children,
@@ -49,26 +70,6 @@ export const SessionProvider = ({
     return () => listener.subscription.unsubscribe();
   }, []);
 
-  const flattenUser = (s: Session | null): CustomSession | null => {
-    if (!s || !s.user) return null;
-
-    const user: FlattenedUser = {
-      id: s.user.id,
-      email: s.user.email,
-      fullName: s.user.user_metadata?.full_name || "",
-      firstName: s.user.user_metadata?.full_name?.split(" ")[0] || "",
-      lastName:
-        s.user.user_metadata?.full_name?.split(" ").slice(1).join(" ") || "",
-      avatar: s.user.user_metadata?.avatar_url || "",
-    };
-
-    return {
-      user,
-      access_token: s.access_token,
-      expires_at: s.expires_at,
-    };
-  };
-
   return (
     <SessionContext.Provider value={{ session, setSession }}>
       {children}
@@ -76,7 +77,6 @@ export const SessionProvider = ({
   );
 };
 
-// Proper useSession hook
 export const useSession = () => {
   const context = useContext(SessionContext);
   if (!context) {

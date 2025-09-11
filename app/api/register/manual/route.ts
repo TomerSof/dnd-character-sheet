@@ -1,4 +1,4 @@
-import { supabase } from "../supa-client";
+import { supabase } from "../../supa-client";
 
 interface RegisterData {
   email: string;
@@ -9,7 +9,7 @@ interface RegisterData {
 /**
  * Manual registration with email/password
  */
-export async function manualRegister({ email, password, fullName }: RegisterData) {
+ async function manualRegister({ email, password, fullName }: RegisterData) {
   // 1️⃣ Sign up user in Supabase Auth
   const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
     email,
@@ -45,7 +45,7 @@ export async function manualRegister({ email, password, fullName }: RegisterData
 /**
  * Post-OAuth registration (e.g., Google) after redirect
  */
-export async function postOAuthRegister() {
+  async function postOAuthRegister() {
   const { data: { session }, error } = await supabase.auth.getSession();
   if (error) throw new Error(error.message);
   if (!session) return null;
@@ -63,3 +63,14 @@ export async function postOAuthRegister() {
 
   return { user, session };
 }
+
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const result = await manualRegister(body);
+    return new Response(JSON.stringify(result), { status: 200 });
+  } catch (err: any) {
+    return new Response(JSON.stringify({ error: err.message }), { status: 400 });
+  }
+}
+
