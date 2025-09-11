@@ -92,10 +92,15 @@ export default function Registration() {
   };
 
   useEffect(() => {
-    if (session) {
-      router.push("/"); // or "/sheet"
-    }
-  }, [session, router]);
+    const checkOAuthSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        setSession(flattenUser(data.session));
+      }
+    };
+
+    checkOAuthSession();
+  }, [setSession]);
 
   const handleSubmit = async () => {
     if (mode === "register" && !isPasswordValid) return;
