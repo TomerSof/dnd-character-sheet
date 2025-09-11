@@ -1,6 +1,3 @@
-import { useCharacter } from "@/app/contexts/CharacterContext";
-import FloatingNumInput from "@/app/components/FloatingNumInput";
-import FloatingTxtInput from "@/app/components/FloatingTxtInput";
 import React, { useState } from "react";
 import SearchBar from "./SearchBar";
 import CharacterSpellsTable from "./CharacterSpellsTable";

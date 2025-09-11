@@ -1,25 +1,12 @@
-import {
-  SpellCost,
-  SpellLevel,
-  SpellSearchParams,
-} from "@/app/sheet/types";
+import { SpellCost, SpellLevel, SpellSearchParams } from "@/app/sheet/types";
 import FloatingNumInput from "@/app/components/FloatingNumInput";
 import FloatingTxtInput from "@/app/components/FloatingTxtInput";
 import React, { useState } from "react";
 import { useSpellTableContext } from "@/app/contexts/SpellTableContext";
 
-type Props = {
-  setSearchParameters: (
-    value:
-      | SpellSearchParams
-      | undefined
-      | ((prev: SpellSearchParams | undefined) => SpellSearchParams | undefined)
-  ) => void;
-};
-
 export default function SearchBar() {
   const [inputKey, setInputKey] = useState(0);
-  const {searchParameters,setSearchParameters} = useSpellTableContext();
+  const { searchParameters, setSearchParameters } = useSpellTableContext();
 
   const handleClear = () => {
     setSearchParameters(undefined);

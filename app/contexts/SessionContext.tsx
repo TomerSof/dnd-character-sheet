@@ -3,15 +3,34 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../api/supa-client";
 
+interface FlattenedUser {
+  id: string;
+  email: string | null;
+  fullName: string;
+  firstName: string;
+  lastName: string;
+  avatar: string;
+}
+
+interface CustomSession {
+  user: FlattenedUser;
+  access_token: string;
+  expires_at: number;
+}
+
 interface SessionContextType {
-  session: any;
-  setSession: (session: any) => void;
+  session: CustomSession | null;
+  setSession: (session: CustomSession | null) => void;
 }
 
 const SessionContext = createContext<SessionContextType | null>(null);
 
-export const SessionProvider = ({ children }: { children: React.ReactNode }) => {
-  const [session, setSession] = useState<any>(null);
+export const SessionProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [session, setSession] = useState<CustomSession | null>(null);
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -21,29 +40,34 @@ export const SessionProvider = ({ children }: { children: React.ReactNode }) => 
 
     fetchSession();
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(flattenUser(session));
-    });
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(flattenUser(session));
+      }
+    );
 
     return () => listener.subscription.unsubscribe();
   }, []);
 
-  const flattenUser = (s: any) => {
+  const flattenUser = (s: Session | null): CustomSession | null => {
     if (!s || !s.user) return null;
 
+    const user: FlattenedUser = {
+      id: s.user.id,
+      email: s.user.email,
+      fullName: s.user.user_metadata?.full_name || "",
+      firstName: s.user.user_metadata?.full_name?.split(" ")[0] || "",
+      lastName:
+        s.user.user_metadata?.full_name?.split(" ").slice(1).join(" ") || "",
+      avatar: s.user.user_metadata?.avatar_url || "",
+    };
+
     return {
-      ...s,
-      user: {
-        id: s.user.id,
-        email: s.user.email,
-        fullName: s.user.user_metadata?.full_name || "",
-        firstName: s.user.user_metadata?.full_name.split(" ")[0] || "",
-        lastName: s.user.user_metadata?.full_name.split(" ").slice(1).join(" ") || "",
-        avatar: s.user.user_metadata?.avatar_url || "",
-      },
+      user,
+      access_token: s.access_token,
+      expires_at: s.expires_at,
     };
   };
-
 
   return (
     <SessionContext.Provider value={{ session, setSession }}>

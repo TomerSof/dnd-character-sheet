@@ -24,11 +24,10 @@ const handler = NextAuth({
         const access_token = account?.access_token || null;
         const refresh_token = account?.refresh_token || null;
         const token_type = account?.token_type || null;
-        const created_at = new Date().toISOString();
-        const last_login = new Date().toISOString();
+        
       try {
         console.log("Upserting google user:", email);
-        const { data, error } = await supabase.from("users").upsert([
+        const { error } = await supabase.from("users").upsert([
           {
             email,
             name,

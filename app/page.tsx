@@ -6,10 +6,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const { session, setSession } = useSession();
-  const [guest, setGuest] = useState(false);
+  const { session } = useSession();
   const router = useRouter();
-
 
   useEffect(() => {
     // If the user is logged in, send them straight to /sheet
@@ -21,9 +19,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="pt-17">
-        {!session && <HomePage />}
-      </main>
+      <main className="pt-17">{!session && <HomePage />}</main>
     </>
   );
 }

@@ -33,9 +33,10 @@ export default function Registration() {
       // Optionally store session locally or redirect
       if (session && setSession) setSession(session); // <- update context
       router.push("/sheet");
-    } catch (err: any) {
-      console.error(err);
-      alert(err.message || "Something went wrong.");
+    } catch (err: unkown) {
+      const e = err as Error;
+      console.error(e);
+      alert(e.message || "Something went wrong.");
     }
   };
 
@@ -87,19 +88,21 @@ export default function Registration() {
   useEffect(() => {
     const handlePostOAuth = async () => {
       try {
-        const result = await postOAuthRegister();
+        const result: { session: Session | null; user: User | null } | null =
+          await postOAuthRegister();
         if (result) {
           console.log("OAuth user session:", result.session);
           router.push("/"); // redirect after successful OAuth registration
         }
-      } catch (err: any) {
-        console.error(err);
-        alert(err.message || "OAuth registration failed.");
+      } catch (err: unkown) {
+        const e = err as Error;
+        console.error(e);
+        alert(e.message || "OAuth registration failed.");
       }
     };
 
     handlePostOAuth();
-  }, []);
+  }, [router]);
 
   const handleSubmit = async () => {
     if (mode === "register" && !isPasswordValid) return;

@@ -2,9 +2,8 @@
 import React, { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "./contexts/SessionContext";
-import { sign } from "crypto";
 import { supabase } from "./api/supa-client";
-import ThemeController from "./sheet/themeController";
+import ThemeController from "./ThemeController";
 import Link from "next/link";
 
 export default function Navbar() {

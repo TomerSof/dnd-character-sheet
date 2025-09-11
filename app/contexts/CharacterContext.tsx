@@ -2,7 +2,6 @@
 
 import React, { createContext, useState, ReactNode, useContext } from "react";
 import { CharacterData, Spell } from "../sheet/types";
-import { stat } from "fs";
 
 const defaultCharacter = {
   name: "",
@@ -274,9 +273,7 @@ export const CharacterProvider = ({ children }: { children: ReactNode }) => {
     const stat = updatedStats[index];
 
     const mod = Math.floor((updateValue - 10) / 2);
-    const prof =
-      character.traits.find((trait) => trait.name == "Proficiency Bonus")
-        ?.baseValue ?? 0;
+
     updatedStats[index] = {
       ...stat,
       value: updateValue,

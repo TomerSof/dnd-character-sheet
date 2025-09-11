@@ -19,12 +19,9 @@ export default function SpellTableRow({ tSpell }: Props) {
   const {
     modalSpellId,
     tableSpells,
-    notesDraft,
-    isNotesEditable,
     confirmDeleteModal,
     handleTSpellDelete,
     setTableSpells,
-    handleNoteCancel,
     handleSpellSave,
     setConfirmDeleteModal,
     updateSpellField,

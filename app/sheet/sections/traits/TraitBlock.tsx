@@ -14,18 +14,12 @@ export default function TraitBlock({
   onValueChange,
   Index,
   TraitValue,
-  ...props
 }: TraitsBlockProps) {
   const [localValue, setLocalValue] = React.useState(TraitValue);
 
   React.useEffect(() => {
     setLocalValue(TraitValue);
   }, [TraitValue]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.valueAsNumber;
-    onValueChange?.(Index, value);
-  };
 
   return (
     <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
