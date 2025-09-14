@@ -1,38 +1,66 @@
-# dnd-character-sheet
+# DND-CHARACTER-SHEET
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+_Unleash Creativity, Master Your Adventure Effortlessly_
+
+![last-commit](https://img.shields.io/github/last-commit/TomerSof/dnd-character-sheet?style=flat&logo=git&logoColor=white&color=0080ff)
+![repo-top-language](https://img.shields.io/github/languages/top/TomerSof/dnd-character-sheet?style=flat&color=0080ff)
+![repo-language-count](https://img.shields.io/github/languages/count/TomerSof/dnd-character-sheet?style=flat&color=0080ff)
+
+_Built with the tools and technologies:_
+
+![JSON](https://img.shields.io/badge/JSON-000000.svg?style=flat&logo=JSON&logoColor=white)
+![Markdown](https://img.shields.io/badge/Markdown-000000.svg?style=flat&logo=Markdown&logoColor=white)
+![npm](https://img.shields.io/badge/npm-CB3837.svg?style=flat&logo=npm&logoColor=white)
+![PostCSS](https://img.shields.io/badge/PostCSS-DD3A0A.svg?style=flat&logo=PostCSS&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=flat&logo=JavaScript&logoColor=black)  
+![DaisyUI](https://img.shields.io/badge/DaisyUI-1AD1A5.svg?style=flat&logo=DaisyUI&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB.svg?style=flat&logo=React&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6.svg?style=flat&logo=TypeScript&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-4B32C3.svg?style=flat&logo=ESLint&logoColor=white)
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Testing](#testing)
+
+---
+
+## Overview
+
+**dnd-character-sheet** is an open-source developer toolkit for building feature-rich, customizable RPG character management applications. It leverages modern web technologies to deliver a scalable and maintainable architecture.
+
+### Why dnd-character-sheet?
+
+This project empowers developers to create immersive character sheets with ease. The core features include:
+
+- 🎨 **🖼️ Rich Visual Components:** Reusable SVG graphics, themed borders, and styled UI elements for engaging interfaces.
+- 🔧 **🧩 Modular Architecture:** React components, context providers, and Tailwind CSS for flexible, maintainable codebases.
+- 🔒 **🔑 Secure Backend Integration:** Seamless API connections with Supabase for authentication and data persistence.
+- ⚙️ **⚡ Dynamic State Management:** Centralized handling of user sessions, character data, and spell information.
+- 🛠️ **📝 Customizable Data Models:** TypeScript types and structured schemas for consistent data handling across features.
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This project requires the following dependencies:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Programming Language:** TypeScript
+- **Package Manager:** npm
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Build **dnd-character-sheet** from the source and install dependencies:
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/TomerSof/dnd-character-sheet
+   ```
