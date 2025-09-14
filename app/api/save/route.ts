@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
   .from("characters")
   .upsert(
     [
-      { id: character.id, user_id, ...character } // flatten character if columns exist
+      { id: character.id, user_id, character } // flatten character if columns exist
     ],
     { onConflict: "id" }
   )
