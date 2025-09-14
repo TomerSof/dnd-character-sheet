@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { user_id, character } = body;
 
-  const { error, data } = await supabase
+  const { error } = await supabase
   .from("characters")
   .upsert(
     [

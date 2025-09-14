@@ -8,7 +8,7 @@ import PasswordChecklist from "react-password-checklist";
 import { flattenUser, useSession } from "../contexts/SessionContext";
 
 export default function Registration() {
-  const { session, setSession } = useSession();
+  const { setSession } = useSession();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");

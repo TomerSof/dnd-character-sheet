@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useSession } from "../contexts/SessionContext";
 import { supabase } from "../api/supa-client";
@@ -14,7 +13,6 @@ export default function CharactersModal({
 }: CharactersModalProps) {
   const { session } = useSession();
   const [dbCharacters, setDbCharacters] = useState<DbCharacterRow[]>([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -27,7 +25,6 @@ export default function CharactersModal({
   useEffect(() => {
     const fetchCharacters = async () => {
       if (!session?.user) return;
-      setLoading(true);
       const { data, error } = await supabase
         .from("characters")
         .select("*")
@@ -37,7 +34,6 @@ export default function CharactersModal({
       if (!error && data) {
         setDbCharacters(data);
       }
-      setLoading(false);
       console.log("Fetched characters:", data);
     };
 
