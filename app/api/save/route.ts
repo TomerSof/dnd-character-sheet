@@ -4,14 +4,14 @@ import { supabase } from "../supa-client";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { user_id, character } = body;
+  const { characterId ,user_id, character } = body;
 
-  const { error } = await supabase
+  const { data, error } = await supabase
   .from("characters")
   .upsert(
-    [
-      { id: character.id, user_id, character } // flatten character if columns exist
-    ],
+    characterId
+    ? [{ id: characterId, user_id, character }]
+    : [{ user_id, character }],
     { onConflict: "id" }
   )
   .select()
@@ -19,5 +19,5 @@ export async function POST(req: NextRequest) {
 
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
-  return NextResponse.json({ message: "Character saved!" });
+  return NextResponse.json({ message: "Character saved!", id: data.id }, { status: 200 });
 }

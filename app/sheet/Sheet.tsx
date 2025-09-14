@@ -46,7 +46,7 @@ export default function CharacterSheet({ guestMode }: CharacterSheetProps) {
   const [isCoinsModalOpen, setIsCoinsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  const { session } = useSession();
+  const { session, setSession } = useSession();
 
   const handleSaveCharacter = useCallback(async () => {
     if (!session) return;
@@ -56,13 +56,25 @@ export default function CharacterSheet({ guestMode }: CharacterSheetProps) {
       const res = await fetch("/api/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id: session.user.id, character }),
+        body: JSON.stringify({
+          characterId: session.activeCharacterId,
+          user_id: session.user.id,
+          character,
+        }),
       });
 
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.error);
       console.log(data.message);
+
+      if (!session.activeCharacterId && data.id) {
+        setSession((prev) => ({
+          ...prev!,
+          activeCharacterId: data.id,
+        }));
+      }
+
       setIsSavedCharacter(true);
     } catch (err) {
       if (err instanceof Error) console.error("Save error:", err);

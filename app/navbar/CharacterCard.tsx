@@ -3,6 +3,7 @@ import { DbCharacterRow } from "../sheet/types";
 import { X } from "lucide-react";
 import { supabase } from "../api/supa-client";
 import { useCharacter } from "../contexts/CharacterContext";
+import { useSession } from "../contexts/SessionContext";
 
 interface CharacterCardProps {
   dbChar: DbCharacterRow;
@@ -16,6 +17,7 @@ export default function CharacterCard({
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const { setCharacter, setIsSavedCharacter } = useCharacter();
+  const { setSession } = useSession();
 
   const handleDelete = async () => {
     setLoading(true);
@@ -68,6 +70,9 @@ export default function CharacterCard({
           onClick={() => {
             setCharacter(dbChar.character);
             setIsSavedCharacter(true);
+            setSession((prev) =>
+              prev ? { ...prev, activeCharacterId: dbChar.id } : prev
+            );
           }}
         >
           <div className="card-body">

@@ -17,13 +17,14 @@ export interface CustomSession {
   user: FlattenedUser;
   access_token: string;
   expires_at: number | undefined;
+  activeCharacterId?: string;
 }
 
 interface SessionContextType {
   session: CustomSession | null;
   chosenTheme: string | null;
   loading: boolean;
-  setSession: (session: CustomSession | null) => void;
+  setSession: React.Dispatch<React.SetStateAction<CustomSession | null>>;
   setChosenTheme: (theme: string) => void;
 }
 
