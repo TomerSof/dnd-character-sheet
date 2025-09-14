@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import TopPageInfo from "./sections/TopPageInfo";
 import SpellSlots from "./sections/SpellSlots";
 import WaponsAndAttacksTB from "./sections/WeaponsAndAttacksTB";
@@ -48,7 +48,7 @@ export default function CharacterSheet({ guestMode }: CharacterSheetProps) {
 
   const { session } = useSession();
 
-  const handleSaveCharacter = async () => {
+  const handleSaveCharacter = useCallback(async () => {
     if (!session) return;
     setIsSaving(true);
 
@@ -69,17 +69,18 @@ export default function CharacterSheet({ guestMode }: CharacterSheetProps) {
     } finally {
       setIsSaving(false);
     }
-  };
+  }, [session, character, setIsSavedCharacter]);
 
+  // Autosave interval
   useEffect(() => {
     if (!isSavedCharacter) return; // only auto-save if character already exists
 
     const interval = setInterval(() => {
       handleSaveCharacter();
-    }, 5 * 60 * 1000); // 5 minutes
+    }, 5 * 60 * 1000); // every 5 minutes
 
-    return () => clearInterval(interval); // cleanup on unmount
-  }, [isSavedCharacter, character, handleSaveCharacter]);
+    return () => clearInterval(interval);
+  }, [isSavedCharacter, handleSaveCharacter]);
 
   return (
     <>
