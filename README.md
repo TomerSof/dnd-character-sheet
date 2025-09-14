@@ -28,9 +28,7 @@ dnd-character-sheet is an open-source developer toolkit for building feature-ric
 
 # The current repository is deployed at:
 
-    ```sh
-    ❯ https://dndmanage.vercel.app/
-    ```
+     https://dndmanage.vercel.app/
 
 **Why dnd-character-sheet?**
 
