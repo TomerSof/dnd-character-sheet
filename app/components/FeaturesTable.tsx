@@ -70,7 +70,7 @@ export default function FeaturesTable({
           </tr>
 
           {rows.map((row) => (
-            <tr key={row.id} >
+            <tr key={row.id}>
               <td></td>
               <td className="pt-5 w-[40%]">
                 <input

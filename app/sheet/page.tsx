@@ -1,5 +1,5 @@
 "use client";
-import Navbar from "../Navbar";
+import Navbar from "../navbar/Navbar";
 import Sheet from "./Sheet";
 
 export default function SheetPage() {

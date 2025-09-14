@@ -1,11 +1,12 @@
 "use client";
+
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../api/supa-client";
 import { Session } from "@supabase/supabase-js";
 
 export interface FlattenedUser {
   id: string;
-  email: string | null | undefined;
+  email: string | null;
   fullName: string;
   firstName: string;
   lastName: string;
@@ -20,12 +21,14 @@ export interface CustomSession {
 
 interface SessionContextType {
   session: CustomSession | null;
+  chosenTheme: string | null;
   setSession: (session: CustomSession | null) => void;
+  setChosenTheme: (theme: string) => void;
 }
 
 const SessionContext = createContext<SessionContextType | null>(null);
 
-// 🔑 Moved flattenUser outside so it can be reused
+// Flatten Supabase session into CustomSession
 export const flattenUser = (s: Session | null): CustomSession | null => {
   if (!s || !s.user) return null;
 
@@ -52,18 +55,39 @@ export const SessionProvider = ({
   children: React.ReactNode;
 }) => {
   const [session, setSession] = useState<CustomSession | null>(null);
+  const [chosenTheme, setChosenTheme] = useState<string | null>(null);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const fetchSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      setSession(flattenUser(data.session));
+    const fetchThemeForUser = async (userId: string) => {
+      const { data, error } = await supabase
+        .from("users_meta")
+        .select("default_theme")
+        .eq("id", userId)
+        .single();
+
+      if (!error && data?.default_theme) {
+        setChosenTheme(data.default_theme);
+      }
     };
 
-    fetchSession();
+    const initSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session?.user) {
+        const flat = flattenUser(data.session);
+        setSession(flat);
+        await fetchThemeForUser(data.session.user.id);
+      }
+      setHydrated(true);
+    };
+
+    initSession();
 
     const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSession(flattenUser(session));
+      async (_event, s) => {
+        const flat = flattenUser(s);
+        setSession(flat);
+        if (s?.user?.id) await fetchThemeForUser(s.user.id);
       }
     );
 
@@ -71,17 +95,19 @@ export const SessionProvider = ({
   }, []);
 
   return (
-    <SessionContext.Provider value={{ session, setSession }}>
-      {children}
+    <SessionContext.Provider
+      value={{ session, setSession, chosenTheme, setChosenTheme }}
+    >
+      {hydrated ? children : null}
     </SessionContext.Provider>
   );
 };
 
 export const useSession = () => {
   const context = useContext(SessionContext);
-  if (!context) {
+  if (!context)
     throw new Error("useSession must be used within a SessionProvider");
-  }
   return context;
 };
+
 export default SessionContext;

@@ -1,6 +1,10 @@
 import React from "react";
+import { useSession } from "./contexts/SessionContext";
+import { supabase } from "./api/supa-client";
 
 export default function ThemeController() {
+  const { chosenTheme, setChosenTheme, session } = useSession();
+
   const themes = [
     "acid",
     "abyss",
@@ -44,6 +48,19 @@ export default function ThemeController() {
     return str[0].toUpperCase() + str.slice(1);
   }
 
+  const handleThemeChange = async (theme: string) => {
+    if (setChosenTheme) setChosenTheme(theme);
+
+    if (!session?.user?.id) return;
+
+    const { error } = await supabase
+      .from("users_meta")
+      .update({ default_theme: theme })
+      .eq("id", session.user.id);
+
+    if (error) console.error("Failed to update theme:", error.message);
+  };
+
   return (
     <div className="dropdown m-0 py-0">
       <div tabIndex={0} role="button" className="btn btn-warning m-0">
@@ -70,6 +87,8 @@ export default function ThemeController() {
               name="theme-dropdown"
               className="theme-controller text-warning-content w-full btn btn-sm btn-ghost justify-start"
               aria-label={capitalizeFirstLetter(theme)}
+              checked={chosenTheme === theme}
+              onChange={() => handleThemeChange(theme)}
               value={theme}
             />
           </li>

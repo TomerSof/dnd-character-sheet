@@ -1,17 +1,22 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "./contexts/SessionContext";
-import { supabase } from "./api/supa-client";
-import ThemeController from "./ThemeController";
-import Link from "next/link";
+import { useSession } from "../contexts/SessionContext";
+import { supabase } from "../api/supa-client";
+import ThemeController from "../ThemeController";
+import CharactersModal from "./CharactersModal";
+import { useCharacter } from "../contexts/CharacterContext";
 
 export default function Navbar() {
   const router = useRouter();
   const { session, setSession } = useSession();
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [isCharactersModalOpen, setIsCharactersModalOpen] = useState(false);
+  const { resetCharacter, setIsSavedCharacter } = useCharacter();
 
-  console.log("Current session:", session); // <- add this line
+  const handleNewCharacter = () => {
+    setIsSavedCharacter(false);
+    resetCharacter();
+  };
 
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -24,7 +29,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="navbar bg-primary/80 shadow-sm fixed">
+    <div className="navbar z-10 bg-primary/80 shadow-sm fixed">
       {/*Mobile Dropdown*/}
       <div className="navbar-start w-auto">
         <div className="dropdown">
@@ -76,13 +81,16 @@ export default function Navbar() {
           <li>
             <button
               className="btn btn-primary-content"
-              onClick={() => dialogRef.current?.showModal()}
+              onClick={() => setIsCharactersModalOpen(true)}
             >
               My characters
             </button>
           </li>
           <li>
-            <button className="btn btn-primary-content">
+            <button
+              className="btn btn-primary-content"
+              onClick={handleNewCharacter}
+            >
               Create new character
             </button>
           </li>
@@ -121,23 +129,11 @@ export default function Navbar() {
         )}
       </div>
 
-      <dialog ref={dialogRef} className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box flex align-center flex-col">
-          <h3 className="font-bold text-lg underline">My Characters</h3>
-          <p className="py-4">
-            If you choose to continue as a guest, your character will not be
-            saved.
-          </p>
-          <div className="modal-action">
-            <form method="dialog" className="flex gap-4 justify-around w-full">
-              <button className="btn btn-error">Close</button>
-              <Link className="btn btn-primary" href="/guest">
-                Continue as Guest
-              </Link>
-            </form>
-          </div>
-        </div>
-      </dialog>
+      {isCharactersModalOpen && (
+        <CharactersModal
+          handleOnClose={() => setIsCharactersModalOpen(false)}
+        />
+      )}
     </div>
   );
 }

@@ -159,7 +159,10 @@ const defaultCharacter = {
 
 type CharacterContextType = CharacterData & {
   character: CharacterData;
+  isSavedCharacter: boolean;
+  setIsSavedCharacter: React.Dispatch<React.SetStateAction<boolean>>;
   setCharacter: React.Dispatch<React.SetStateAction<CharacterData>>;
+  resetCharacter: () => void;
   checkingSavingThrow: (index: number) => void;
   checkingSkill: (statIdx: number, skillIdx: number) => void;
   onTraitValueChange: (index: number, updatedValue: number) => void;
@@ -180,6 +183,9 @@ const CharacterContext = createContext<CharacterContextType | undefined>(
 
 export const CharacterProvider = ({ children }: { children: ReactNode }) => {
   const [character, setCharacter] = useState<CharacterData>(defaultCharacter);
+  const [isSavedCharacter, setIsSavedCharacter] = useState(false);
+
+  const resetCharacter = () => setCharacter(defaultCharacter);
 
   const setSpellCasting = (ability: string) => {
     const characterStat = character.stats.find(
@@ -330,6 +336,9 @@ export const CharacterProvider = ({ children }: { children: ReactNode }) => {
       value={{
         ...character,
         character,
+        isSavedCharacter,
+        setIsSavedCharacter,
+        resetCharacter,
         setCharacter,
         checkingSavingThrow,
         checkingSkill,

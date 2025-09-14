@@ -33,6 +33,8 @@ export default function CharacterSheet({ guestMode }: CharacterSheetProps) {
     coins,
     appearance,
     backstory,
+    isSavedCharacter,
+    setIsSavedCharacter,
     setCharacter,
     checkingSavingThrow,
     checkingSkill,
@@ -43,7 +45,6 @@ export default function CharacterSheet({ guestMode }: CharacterSheetProps) {
 
   const [isCoinsModalOpen, setIsCoinsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [savedOnce, setSavedOnce] = useState(false);
 
   const { session } = useSession();
 
@@ -52,7 +53,7 @@ export default function CharacterSheet({ guestMode }: CharacterSheetProps) {
     setIsSaving(true);
 
     try {
-      const res = await fetch("/api/character/save", {
+      const res = await fetch("/api/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: session.user.id, character }),
@@ -62,29 +63,29 @@ export default function CharacterSheet({ guestMode }: CharacterSheetProps) {
 
       if (!res.ok) throw new Error(data.error);
       console.log(data.message);
-      setSavedOnce(true);
+      setIsSavedCharacter(true);
     } catch (err) {
-      if (err instanceof Error) console.error(err.message);
+      if (err instanceof Error) console.error("Save error:", err);
     } finally {
       setIsSaving(false);
     }
   };
 
   useEffect(() => {
-    if (!savedOnce) return; // only auto-save if character already exists
+    if (!isSavedCharacter) return; // only auto-save if character already exists
 
     const interval = setInterval(() => {
       handleSaveCharacter();
     }, 5 * 60 * 1000); // 5 minutes
 
     return () => clearInterval(interval); // cleanup on unmount
-  }, [savedOnce, character]);
+  }, [isSavedCharacter, character]);
 
   return (
     <>
       {!guestMode && (
         <button
-          className="btn btn-secondary bottom-3 right-7 shadow-lg z-50 fixed"
+          className="btn btn-secondary bottom-3 right-7 shadow-lg z-2 fixed"
           onClick={handleSaveCharacter}
         >
           {isSaving ? "Saving..." : "Save Character"}

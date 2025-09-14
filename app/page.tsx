@@ -1,5 +1,5 @@
 "use client";
-import Navbar from "./Navbar";
+import Navbar from "./navbar/Navbar";
 import HomePage from "./home/HomePage";
 import { useSession } from "./contexts/SessionContext";
 import { useEffect } from "react";

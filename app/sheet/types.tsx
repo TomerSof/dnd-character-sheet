@@ -8,7 +8,7 @@ export type Coin = {
   token: string;
   count: number;
   valueInGP: number;
-}
+};
 
 export type Trait = {
   name: string;
@@ -89,9 +89,17 @@ export type CharacterData = {
   hitDiceMax: number;
   hitDiceSpent: number;
   size: number;
-  spellCasting: SpellCasting,
-  coins: Coin[],
-  traits: Trait[],
+  spellCasting: SpellCasting;
+  coins: Coin[];
+  traits: Trait[];
   stats: Stat[];
   spells: Spell[];
+};
+
+export type DbCharacterRow = {
+  id: string;
+  user_id: string;
+  character: CharacterData; // JSON string
+  created_at: string;
+  updated_at: string;
 };
