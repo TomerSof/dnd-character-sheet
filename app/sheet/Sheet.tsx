@@ -79,7 +79,7 @@ export default function CharacterSheet({ guestMode }: CharacterSheetProps) {
     }, 5 * 60 * 1000); // 5 minutes
 
     return () => clearInterval(interval); // cleanup on unmount
-  }, [isSavedCharacter, character]);
+  }, [isSavedCharacter, character, handleSaveCharacter]);
 
   return (
     <>
