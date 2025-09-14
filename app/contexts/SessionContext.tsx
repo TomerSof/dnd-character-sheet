@@ -22,6 +22,7 @@ export interface CustomSession {
 interface SessionContextType {
   session: CustomSession | null;
   chosenTheme: string | null;
+  loading: boolean;
   setSession: (session: CustomSession | null) => void;
   setChosenTheme: (theme: string) => void;
 }
@@ -56,7 +57,7 @@ export const SessionProvider = ({
 }) => {
   const [session, setSession] = useState<CustomSession | null>(null);
   const [chosenTheme, setChosenTheme] = useState<string | null>(null);
-  const [hydrated, setHydrated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchThemeForUser = async (userId: string) => {
@@ -78,7 +79,7 @@ export const SessionProvider = ({
         setSession(flat);
         await fetchThemeForUser(data.session.user.id);
       }
-      setHydrated(true);
+      setLoading(false);
     };
 
     initSession();
@@ -94,12 +95,16 @@ export const SessionProvider = ({
     return () => listener.subscription.unsubscribe();
   }, []);
 
-  if (!hydrated) return null;
+  useEffect(() => {
+    if (chosenTheme)
+      document.documentElement.setAttribute("data-theme", chosenTheme);
+  }, [chosenTheme]);
+
   return (
     <SessionContext.Provider
-      value={{ session, setSession, chosenTheme, setChosenTheme }}
+      value={{ session, setSession, chosenTheme, setChosenTheme, loading }}
     >
-      {hydrated ? children : null}
+      {children}
     </SessionContext.Provider>
   );
 };
