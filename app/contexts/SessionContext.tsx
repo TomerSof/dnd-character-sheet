@@ -99,7 +99,7 @@ export const SessionProvider = ({
     <SessionContext.Provider
       value={{ session, setSession, chosenTheme, setChosenTheme }}
     >
-      {hydrated ? children : null}
+      {children}
     </SessionContext.Provider>
   );
 };
