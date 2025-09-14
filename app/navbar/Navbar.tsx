@@ -15,6 +15,9 @@ export default function Navbar() {
 
   const handleNewCharacter = () => {
     setIsSavedCharacter(false);
+    setSession((prev) =>
+      prev ? { ...prev, activeCharacterId: undefined } : prev
+    );
     resetCharacter();
   };
 
