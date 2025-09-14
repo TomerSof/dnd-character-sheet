@@ -94,6 +94,7 @@ export const SessionProvider = ({
     return () => listener.subscription.unsubscribe();
   }, []);
 
+  if (!hydrated) return null;
   return (
     <SessionContext.Provider
       value={{ session, setSession, chosenTheme, setChosenTheme }}
