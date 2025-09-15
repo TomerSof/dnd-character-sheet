@@ -155,6 +155,17 @@ const defaultCharacter = {
     },
   ],
   spells: [],
+  spellSlots: [
+    { level: 1, max: 2, expended: 0 },
+    { level: 2, max: 0, expended: 0 },
+    { level: 3, max: 0, expended: 0 },
+    { level: 4, max: 0, expended: 0 },
+    { level: 5, max: 0, expended: 0 },
+    { level: 6, max: 0, expended: 0 },
+    { level: 7, max: 0, expended: 0 },
+    { level: 8, max: 0, expended: 0 },
+    { level: 9, max: 0, expended: 0 },
+  ],
 };
 
 type CharacterContextType = CharacterData & {
@@ -171,6 +182,10 @@ type CharacterContextType = CharacterData & {
     add: Record<string, number>,
     subtract: Record<string, number>
   ) => void;
+  setSpellSlots: React.Dispatch<
+    React.SetStateAction<{ level: number; max: number; expended: number }[]>
+  >;
+
   setSpellCasting: (ability: string) => void;
   addSpell: (spell: Spell) => void;
   removeSpell: (spellID: string) => void;
@@ -186,6 +201,15 @@ export const CharacterProvider = ({ children }: { children: ReactNode }) => {
   const [isSavedCharacter, setIsSavedCharacter] = useState(false);
 
   const resetCharacter = () => setCharacter(defaultCharacter);
+
+  const setSpellSlots: CharacterContextType["setSpellSlots"] = (updater) => {
+    setCharacter((prev) => {
+      const newSlots =
+        typeof updater === "function" ? updater(prev.spellSlots) : updater;
+
+      return { ...prev, spellSlots: newSlots };
+    });
+  };
 
   const setSpellCasting = (ability: string) => {
     const characterStat = character.stats.find(
@@ -335,8 +359,10 @@ export const CharacterProvider = ({ children }: { children: ReactNode }) => {
     <CharacterContext.Provider
       value={{
         ...character,
+
         character,
         isSavedCharacter,
+        setSpellSlots,
         setIsSavedCharacter,
         resetCharacter,
         setCharacter,

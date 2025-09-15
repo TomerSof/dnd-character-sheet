@@ -94,6 +94,7 @@ export type CharacterData = {
   traits: Trait[];
   stats: Stat[];
   spells: Spell[];
+  spellSlots: { level: number; max: number; expended: number }[];
 };
 
 export type DbCharacterRow = {

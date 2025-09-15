@@ -2,7 +2,7 @@ import React from "react";
 import { useCharacter } from "../../contexts/CharacterContext";
 
 export default function SpellCastingInfo() {
-  const { stats, spellCasting } = useCharacter();
+  const { stats, spellCasting, setSpellCasting } = useCharacter();
 
   return (
     <div className="flex flex-col justify-center bg-primary/60 border-secondary rounded border-2 px-5 py-5">
@@ -10,8 +10,11 @@ export default function SpellCastingInfo() {
         <span className="label font-fantasy text-secondary font-extrabold  underline">
           Spell Casting Ability:
         </span>
-        <select>
-          <option disabled={true} className="text-center ">
+        <select
+          value={spellCasting.ability || ""}
+          onChange={(e) => setSpellCasting(e.target.value)}
+        >
+          <option disabled value="">
             Choose Ability
           </option>
           {stats.map((stat) => (
