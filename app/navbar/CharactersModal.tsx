@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSession } from "../contexts/SessionContext";
 import { supabase } from "../api/supa-client";
-import { DbCharacterRow } from "../sheet/types";
 import CharacterCard from "./CharacterCard";
+import { DbCharacterRow } from "../sheet/types";
 
 interface CharactersModalProps {
   handleOnClose: () => void;
@@ -11,8 +11,7 @@ interface CharactersModalProps {
 export default function CharactersModal({
   handleOnClose,
 }: CharactersModalProps) {
-  const { session } = useSession();
-  const [dbCharacters, setDbCharacters] = useState<DbCharacterRow[]>([]);
+  const { session, dbCharacters, setDbCharacters } = useSession();
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -23,8 +22,9 @@ export default function CharactersModal({
   }, [handleOnClose]);
 
   useEffect(() => {
+    if (!session?.user || dbCharacters.length > 0) return;
+
     const fetchCharacters = async () => {
-      if (!session?.user) return;
       const { data, error } = await supabase
         .from("characters")
         .select("*")
@@ -38,7 +38,7 @@ export default function CharactersModal({
     };
 
     fetchCharacters();
-  }, [session]);
+  }, [session, dbCharacters.length, setDbCharacters]);
 
   return (
     <>

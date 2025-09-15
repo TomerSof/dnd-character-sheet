@@ -46,7 +46,7 @@ export default function CharacterSheet({ guestMode }: CharacterSheetProps) {
   const [isCoinsModalOpen, setIsCoinsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  const { session, setSession } = useSession();
+  const { session, setSession, setDbCharacters } = useSession();
 
   const handleSaveCharacter = useCallback(async () => {
     if (!session) return;
@@ -69,10 +69,39 @@ export default function CharacterSheet({ guestMode }: CharacterSheetProps) {
       console.log(data.message);
 
       if (!session.activeCharacterId && data.id) {
+        // New character
         setSession((prev) => ({
           ...prev!,
           activeCharacterId: data.id,
         }));
+
+        if (setDbCharacters && data.character) {
+          setDbCharacters((prev) => [
+            ...prev,
+            {
+              id: data.id,
+              user_id: data.user_id,
+              character: data.character,
+              created_at: data.created_at,
+              updated_at: data.updated_at,
+            },
+          ]);
+        }
+      } else if (session.activeCharacterId && data.id && data.character) {
+        // Update existing character
+        if (setDbCharacters) {
+          setDbCharacters((prev) =>
+            prev.map((c) =>
+              c.id === data.id
+                ? {
+                    ...c,
+                    character: data.character,
+                    updated_at: data.updated_at,
+                  }
+                : c
+            )
+          );
+        }
       }
 
       setIsSavedCharacter(true);
@@ -81,7 +110,7 @@ export default function CharacterSheet({ guestMode }: CharacterSheetProps) {
     } finally {
       setIsSaving(false);
     }
-  }, [session, character, setIsSavedCharacter]);
+  }, [session, character, setIsSavedCharacter, setDbCharacters, setSession]);
 
   // Autosave interval
   useEffect(() => {

@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../api/supa-client";
 import { Session } from "@supabase/supabase-js";
+import { DbCharacterRow } from "../sheet/types";
 
 export interface FlattenedUser {
   id: string;
@@ -24,6 +25,8 @@ interface SessionContextType {
   session: CustomSession | null;
   chosenTheme: string | null;
   loading: boolean;
+  dbCharacters: DbCharacterRow[];
+  setDbCharacters: React.Dispatch<React.SetStateAction<DbCharacterRow[]>>;
   setSession: React.Dispatch<React.SetStateAction<CustomSession | null>>;
   setChosenTheme: (theme: string) => void;
 }
@@ -58,6 +61,7 @@ export const SessionProvider = ({
 }) => {
   const [session, setSession] = useState<CustomSession | null>(null);
   const [chosenTheme, setChosenTheme] = useState<string | null>(null);
+  const [dbCharacters, setDbCharacters] = useState<DbCharacterRow[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -79,8 +83,21 @@ export const SessionProvider = ({
         const flat = flattenUser(data.session);
         setSession(flat);
         await fetchThemeForUser(data.session.user.id);
+        await fetchDbCharacters(data.session.user.id);
       }
       setLoading(false);
+    };
+
+    const fetchDbCharacters = async (userId: string) => {
+      const { data, error } = await supabase
+        .from("characters")
+        .select("*")
+        .eq("user_id", userId)
+        .returns<DbCharacterRow[]>();
+
+      if (!error && data) {
+        setDbCharacters(data);
+      }
     };
 
     initSession();
@@ -89,7 +106,10 @@ export const SessionProvider = ({
       async (_event, s) => {
         const flat = flattenUser(s);
         setSession(flat);
-        if (s?.user?.id) await fetchThemeForUser(s.user.id);
+        if (s?.user?.id) {
+          await fetchThemeForUser(s.user.id);
+          await fetchDbCharacters(s.user.id);
+        }
       }
     );
 
@@ -103,7 +123,15 @@ export const SessionProvider = ({
 
   return (
     <SessionContext.Provider
-      value={{ session, setSession, chosenTheme, setChosenTheme, loading }}
+      value={{
+        session,
+        setSession,
+        chosenTheme,
+        setChosenTheme,
+        loading,
+        dbCharacters,
+        setDbCharacters,
+      }}
     >
       {children}
     </SessionContext.Provider>

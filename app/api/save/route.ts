@@ -19,5 +19,16 @@ export async function POST(req: NextRequest) {
 
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
-  return NextResponse.json({ message: "Character saved!", id: data.id }, { status: 200 });
+  return NextResponse.json(
+  {
+    message: "Character saved!",
+    id: data.id,
+    user_id: data.user_id,
+    character: data.character,
+    created_at: data.created_at,
+    updated_at: data.updated_at,
+  },
+  { status: 200 }
+);
+
 }
