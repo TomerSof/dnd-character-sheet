@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSession } from "../contexts/SessionContext";
 import { supabase } from "../api/supa-client";
 import CharacterCard from "./CharacterCard";
